@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% if title %}
     <title>HyperStream - {{title}}</title>
+    {% else %}
+        <title>HyperStream</title>
     {% endif %}
     <!-- Block Styles -->
     {% block styles %} {% bootstrap_css %}
