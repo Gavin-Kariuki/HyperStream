@@ -7,4 +7,4 @@ class RegistrationForm(UserCreationForm):
     barua = forms.EmailField()
     class Meta:
         model = User
-        fields = ['username','full name','email','password']
+        fields = ['username','email','password']
