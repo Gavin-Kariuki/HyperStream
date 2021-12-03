@@ -1,8 +1,12 @@
 from django.core.checks import messages
 from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import login_required 
 from stream.forms import RegistrationForm
 from django.contrib.auth.models import User
 from stream.models import Post, Profile
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your views here.
 def home_page(request):
@@ -33,3 +37,25 @@ def register(request):
         registerForm = RegistrationForm()
 
     return render(request, 'registration/register.html', {"form":registerForm})
+
+#post_save - signals works after a model's save() method is called.
+#receiver - the function who receives the signals and does something
+#sender - sends the signal
+#created - checks whether the model is created or not
+#instance - created model instance
+#kwargs - wildcard keyword arguments
+##>>>> link to the source >>>> https://medium.com/analytics-vidhya/signals-in-django-af99dabeb875  <<<<
+@receiver(post_save, sender=User) #we are using receiver decorator to call the create_user_profile function on creation of user instance.
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+@login_required
+@csrf_protect
+def profile(request):
+    if request.method == "POST":
+        
