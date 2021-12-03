@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import fields
 
+from stream.models import Profile
+
 class RegistrationForm(UserCreationForm):
     barua = forms.EmailField()
     class Meta:
@@ -16,4 +18,7 @@ class UpdateUserForm(forms.ModelForm):
         model = User
         fields = ['username','email']
 
-        
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image', 'bio']
