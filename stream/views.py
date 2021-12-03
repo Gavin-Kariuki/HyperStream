@@ -2,7 +2,7 @@ from django.core.checks import messages
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required 
-from stream.forms import RegistrationForm
+from stream.forms import RegistrationForm, UpdateProfileForm, UpdateUserForm
 from django.contrib.auth.models import User
 from stream.models import Post, Profile
 from django.db.models.signals import post_save
@@ -58,4 +58,28 @@ def save_user_profile(sender, instance, **kwargs):
 @csrf_protect
 def profile(request):
     if request.method == "POST":
-        
+        mtumiaji = UpdateUserForm(request.POST, instance = request.user)
+        profile = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if mtumiaji.is_valid() and profile.is_valid():
+            mtumiaji.save()
+            profile.save()
+            messages.success(request, f'The account has been updated successfully')
+            return redirect('profile')
+
+    else:
+        mtumiaji = UpdateUserForm(instance=request.user)
+        profile = UpdateProfileForm(instance=request.user.profile)
+
+    user_post = Post.objects.filter(mtumiaji=request.user).order_by("-timed_created")
+    post = Post.objects.filter(mtumiaji=request.user).order_by("-timed_created")
+
+    context = {
+        "user_form": mtumiaji,
+        "profile_form": profile,
+        "user_post": user_post,
+        "posts": post,
+    }
+    return render(request,'registration/profile.html',context)
+
+
+    
