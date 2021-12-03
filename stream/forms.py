@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import fields
 
-from stream.models import Profile
+from stream.models import NewPost, Profile
 
 class RegistrationForm(UserCreationForm):
     barua = forms.EmailField()
@@ -21,4 +21,13 @@ class UpdateUserForm(forms.ModelForm):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'bio']
+        fields = ['photo', 'bio']
+
+class PostForm(forms.Form):
+    image = forms.ImageField()
+    image_name = forms.CharField()
+    image_caption = forms.CharField(widget=forms.Textarea())
+
+    class Meta:
+        model = NewPost
+        fields = ['image']
