@@ -10,4 +10,4 @@ def home_page(request):
         "posts": post,
     }
 
-    return render(request, 'home_page.html', context)
+    return render(request, 'all-posts/home_page.html', context)
