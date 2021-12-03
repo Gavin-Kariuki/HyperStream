@@ -7,4 +7,4 @@ class RegistrationForm(UserCreationForm):
     barua = forms.EmailField()
     class Meta:
         model = User
-        fields = ['username','email','password']
+        fields = ['username','first_name','email','password'] #primary att for the user are username,password,email,first_name and last_name
