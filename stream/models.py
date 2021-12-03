@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Post(models.Model):
     image = models.ImageField(upload_to = 'mapicha/')
     image_name = models.CharField(max_length=100)
-    image_caption = models.CharField()
+    image_caption = models.CharField(max_length=100)
     mtumiaji = models.ForeignKey(User, on_delete= models.CASCADE)
     timed_created = models.DateTimeField(auto_now_add = True)
     likes = models.IntegerField(null = True, default=0) #avoid adding comments field so as to be able to link it to the user logged in
