@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required 
 from stream.forms import PostForm, RegistrationForm, UpdateProfileForm, UpdateUserForm, CommentForm
 from django.contrib.auth.models import User
-from stream.models import Post, Profile
+from stream.models import Comment, Post, Profile
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -110,4 +110,45 @@ def post_detail(request, pk):
     post = Post.objects.get(pk=pk)
     mtumiaji = request.user
     form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = Comment(author = mtumiaji, body = form.cleaned_data['body'], post = post)
+
+            comment.save()
+    
+    comments = Comment.objects.filter(post = post).order_by("-timed_created")
+    context = {
+        "post": post,
+        "comments": comments,
+        "form": form,
+    }
+
+    return render(request, "all-posts/post_detail.html", context)
+
+
+@login_required
+def like(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.likes+=1
+    post.save()
+
+    return redirect("home_page")
+
+@login_required
+def delete_post(request, id):
+    kitu = get_object_or_404(Post, id = id)
+    if request.method == "POST" and request.user.is_authenticated and request.user.username == User:
+        kitu.delete()
+
+        messages.success(request, f'Post deleted.')
+        return redirect("home_page")
+
+    context = {}
+
+
+    return render(request, "all-posts/delete_post.html", context)
+
+
+
     
