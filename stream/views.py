@@ -18,7 +18,7 @@ def home_page(request):
 
     return render(request, 'all-posts/home_page.html', context)
 
-
+@csrf_protect
 def register(request):
     if request.method == "POST":
         registerForm = RegistrationForm(request.POST)
