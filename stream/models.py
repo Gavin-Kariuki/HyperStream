@@ -13,7 +13,7 @@ class Post(models.Model):
     likes = models.IntegerField(null = True, default=0) #avoid adding comments field so as to be able to link it to the user logged in
 
     def __str__(self) -> str:
-        return self.image_name
+        return str(self.image_name)
 
     def save_image(self):
         self.save()
