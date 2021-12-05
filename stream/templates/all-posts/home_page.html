@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% load static %} {% load cloudinary %} {% include
-'navbar.html' %} {% load bootstrap3 %} {% block content %}
+{%extends "base.html"%} {%load static%} {%include 'navbar.html'%} {% load bootstrap3 %} {% load cloudinary %} {%block content%}
 <link
   rel="stylesheet"
   href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -7,48 +6,7 @@
 
 <main id="feed">
   {% for post in posts %}
-  <nav
-    class="
-      navbar navbar-expand-lg navbar-light
-      bg-white
-      py-3
-      shadow-sm
-      sticky-top
-    "
-  >
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'home_page' %}">
-        <strong class="h6 mb-0 font-weight-bold text-uppercase"
-          >HyperStream</strong
-        ></a
-      >
-      <button
-        class="navbar-toggler navbar-toggler-right"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'new_post' %}">
-              <i class="fa fa-compass fa-lg"></i>
-            </a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'profile' %}">
-              <i class="fa fa-user-o fa-lg"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  
   <div class="photo">
     <header class="photo__header">
       <img src="{{ post.mtumiaji.profile.image.url }}" class="photo__avatar" />
@@ -79,7 +37,7 @@
           >
         </li>
       </ul>
-      <span class="photo__time-ago">{{ post.time_created }} ago</span>
+      <span class="photo__time-ago">{{ post.timed_created }}</span>
       <div class="photo__add-comment-container">
         <textarea name="comment" placeholder="Add a comment..."></textarea>
         <div class="widget-options">

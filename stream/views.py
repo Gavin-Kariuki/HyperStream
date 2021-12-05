@@ -1,4 +1,4 @@
-from django.core.checks import messages
+from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required 
@@ -117,7 +117,7 @@ def post_detail(request, pk):
 
             comment.save()
     
-    comments = Comment.objects.filter(post = post).order_by("-timed_created")
+    comments = Comment.objects.filter(post = post).order_by("-time_created")
     context = {
         "post": post,
         "comments": comments,

@@ -15,6 +15,7 @@ import os
 import django_heroku 
 import dj_database_url
 from decouple import config,Csv
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,6 +37,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'stream',
+    'bootstrap3',
+    'cloudinary',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'hyper.urls'
 
@@ -127,6 +134,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+cloudinary.config(
+  cloud_name = config('CLOUDINARY_NAME'),
+  api_key = config('CLOUDINARY_API_KEY'),
+  api_secret = config('CLOUDINARY_SECRET')
+)
 
 
 # Internationalization
