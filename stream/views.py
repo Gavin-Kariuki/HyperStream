@@ -1,5 +1,5 @@
 from django.core.checks import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required 
 from stream.forms import PostForm, RegistrationForm, UpdateProfileForm, UpdateUserForm, CommentForm
