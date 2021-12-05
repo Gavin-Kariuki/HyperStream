@@ -2,7 +2,7 @@ from django.core.checks import messages
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required 
-from stream.forms import RegistrationForm, UpdateProfileForm, UpdateUserForm
+from stream.forms import PostForm, RegistrationForm, UpdateProfileForm, UpdateUserForm, CommentForm
 from django.contrib.auth.models import User
 from stream.models import Post, Profile
 from django.db.models.signals import post_save
@@ -81,5 +81,33 @@ def profile(request):
     }
     return render(request,'registration/profile.html',context)
 
+@login_required
+def new_post(request):
+    form = PostForm(request.POST, request.FILES)
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = Post(
+                image = form.cleaned_data["image"],
+                image_name = form.cleaned_data["image_name"],
+                image_caption = form.cleaned_data["image_caption"],
+                mtumiaji = request.user
+            )
+            post.save()
+            print(post)
+            name_of_post = form.cleaned_data.get("image_name")
+            messages.success(request, f'Post has been created {name_of_post}')
+            return redirect('home_page')
 
+    else:
+        form = PostForm()
+
+    return render(request,'all-posts/new_post.html', {"form":form})
+
+@login_required
+@csrf_protect
+def post_detail(request, pk):
+    post = Post.objects.get(pk=pk)
+    mtumiaji = request.user
+    form = CommentForm()
     

@@ -31,3 +31,6 @@ class PostForm(forms.Form):
     class Meta:
         model = NewPost
         fields = ['image']
+
+class CommentForm(forms.Form):
+    body = forms.CharField(widget = forms.TextInput(attrs = {"class": "form-control", "placeholder": "Add a comment"}))
